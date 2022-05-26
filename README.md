@@ -32,11 +32,12 @@ $ yarn build && yarn package
 
 The action.yml defines news inputs and output for action.
 
-| Inputs                       |    required   |    default   |                  description                  |
-|------------------------------|:-------------:|-------------:|:---------------------------------------------:|
-| channel_id                   | true          | null         | add channel                                   |
-| thread_ts                    | false         | null         | add thread id                                 |
-| max_days                     | false         | 30           | add max days                                  |
+| Inputs                       |    required   |                     default                       |                  description                  |
+|------------------------------|:-------------:|--------------------------------------------------:|:---------------------------------------------:|
+| channel_id                   | true          | null                                              | add channel                                   |
+| thread_ts                    | false         | null                                              | add thread id                                 |
+| max_days                     | false         | 30                                                | add max days                                  |
+| deny_branch_list             | false         | main,release,dependabot                           | Add list branch validate, separeted with ,    |
 
 
 
@@ -78,6 +79,7 @@ jobs:
           channel_id: ${{secrets.CHANNEL_ID}}
           thread_ts: ${{ needs.slack.outputs.thread_ts }}
           max_days: 1
+          deny_branch_list: main,release,dependabot
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}

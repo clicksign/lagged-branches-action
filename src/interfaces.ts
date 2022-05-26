@@ -1,7 +1,10 @@
+import {Context} from '@actions/github/lib/context'
+
 export interface IDateBranch {
   channelID: string
   threadTS: string
   maxDays: string
+  denyBranchList: string
 }
 
 export interface IBranchesInfo {
@@ -31,4 +34,16 @@ export interface IBlocks {
 
 export interface IDiffDate {
   branchCommitterLastUpdate: string
+}
+
+export interface IValidateBranch {
+  branchData: any
+  denyBranchList: string
+}
+
+export interface IGetBranchesInfo {
+  branchData: any
+  toolKit: any
+  context: Context
+  maxDays: string
 }

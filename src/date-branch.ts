@@ -4,11 +4,13 @@ import {IDateBranch} from './interfaces'
 import {slack} from './slack-send'
 import {githubToken} from './libs/get-github-token'
 import {getBranchesInfo} from './libs/get-branches-info'
+import {validateBranch} from './libs/get-allowed-branches'
 
 export async function execute({
   channelID,
   threadTS,
-  maxDays
+  maxDays,
+  denyBranchList
 }: IDateBranch): Promise<void> {
   const toolKit = getOctokit(githubToken())
 
@@ -16,12 +18,17 @@ export async function execute({
     ...context.repo
   })
 
-  const branchesInfo = await getBranchesInfo(
+  const allowedBranches = validateBranch({
     branchData,
+    denyBranchList
+  })
+
+  const branchesInfo = await getBranchesInfo({
+    branchData: allowedBranches,
     toolKit,
     context,
     maxDays
-  )
+  })
 
   core.debug(JSON.stringify(branchesInfo))
 

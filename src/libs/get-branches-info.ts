@@ -1,6 +1,5 @@
 import * as core from '@actions/core'
-import {Context} from '@actions/github/lib/context'
-import {IBranchesInfo, IDiffDate} from '../interfaces'
+import {IBranchesInfo, IDiffDate, IGetBranchesInfo} from '../interfaces'
 
 function diffDate({branchCommitterLastUpdate}: IDiffDate): number {
   const lastDateCommit = new Date(branchCommitterLastUpdate)
@@ -10,12 +9,12 @@ function diffDate({branchCommitterLastUpdate}: IDiffDate): number {
   return days
 }
 
-export async function getBranchesInfo(
-  branchData: any,
-  toolKit: any,
-  context: Context,
-  maxDays: string
-): Promise<IBranchesInfo[]> {
+export async function getBranchesInfo({
+  branchData,
+  toolKit,
+  context,
+  maxDays
+}: IGetBranchesInfo): Promise<IBranchesInfo[]> {
   const branchesInfo = await Promise.all(
     branchData.map(async (branch: any) => {
       // criar lista de branch que nao vai ser preciso ser avaliada

@@ -53,11 +53,21 @@ const github_1 = __nccwpck_require__(5438);
 const slack_send_1 = __nccwpck_require__(9555);
 const get_github_token_1 = __nccwpck_require__(2589);
 const get_branches_info_1 = __nccwpck_require__(6164);
-function execute({ channelID, threadTS, maxDays }) {
+const get_allowed_branches_1 = __nccwpck_require__(1528);
+function execute({ channelID, threadTS, maxDays, denyBranchList }) {
     return __awaiter(this, void 0, void 0, function* () {
         const toolKit = (0, github_1.getOctokit)((0, get_github_token_1.githubToken)());
         const { data: branchData } = yield toolKit.rest.repos.listBranches(Object.assign({}, github_1.context.repo));
-        const branchesInfo = yield (0, get_branches_info_1.getBranchesInfo)(branchData, toolKit, github_1.context, maxDays);
+        const allowedBranches = (0, get_allowed_branches_1.validateBranch)({
+            branchData,
+            denyBranchList
+        });
+        const branchesInfo = yield (0, get_branches_info_1.getBranchesInfo)({
+            branchData: allowedBranches,
+            toolKit,
+            context: github_1.context,
+            maxDays
+        });
         core.debug(JSON.stringify(branchesInfo));
         if (branchesInfo.length === 0) {
             return;
@@ -133,6 +143,34 @@ exports.blockThread = blockThread;
 
 /***/ }),
 
+/***/ 1528:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.validateBranch = void 0;
+function validateBranch({ branchData, denyBranchList }) {
+    const denyList = denyBranchList.split(',');
+    const allowedBranches = branchData.filter((branch) => {
+        let existed = false;
+        for (const deny of denyList) {
+            if (branch.name.startsWith(deny)) {
+                existed = true;
+                break;
+            }
+        }
+        if (!existed) {
+            return branch;
+        }
+    });
+    return allowedBranches;
+}
+exports.validateBranch = validateBranch;
+
+
+/***/ }),
+
 /***/ 6164:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -180,7 +218,7 @@ function diffDate({ branchCommitterLastUpdate }) {
     const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
     return days;
 }
-function getBranchesInfo(branchData, toolKit, context, maxDays) {
+function getBranchesInfo({ branchData, toolKit, context, maxDays }) {
     return __awaiter(this, void 0, void 0, function* () {
         const branchesInfo = yield Promise.all(branchData.map((branch) => __awaiter(this, void 0, void 0, function* () {
             // criar lista de branch que nao vai ser preciso ser avaliada
@@ -282,7 +320,8 @@ function run() {
             const channelID = core.getInput('channel_id');
             const threadTS = core.getInput('thread_ts');
             const maxDays = core.getInput('max_days');
-            yield (0, date_branch_1.execute)({ channelID, threadTS, maxDays });
+            const denyBranchList = core.getInput('deny_branch_list');
+            yield (0, date_branch_1.execute)({ channelID, threadTS, maxDays, denyBranchList });
             core.debug(new Date().toTimeString());
         }
         catch (error) {
