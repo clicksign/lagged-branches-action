@@ -3,15 +3,18 @@ description: 'Get all branchs lagged and send message to slack'
 author: 'Team Devops'
 inputs:
   channel_id:
-    required: false
-    description: 'Add channel'
+    required: true
+    description: 'add channel'
   thread_ts:
     required: false
     description: 'add thread id'
   max_days:
     required: false
-    description: 'add thread id'
+    description: 'add max days'
     default: '30'
 runs:
   using: 'node16'
   main: 'dist/index.js'
+branding:
+  icon: 'arrow-right-circle'  
+  color: 'blue'
