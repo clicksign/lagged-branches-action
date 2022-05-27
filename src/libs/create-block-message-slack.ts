@@ -6,7 +6,7 @@ export function blockMessage(repoName: string): IBlocks[] {
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: `@channel :patying_face::patying_face::patying_face: *Braches aniversariantes da semana do repositorio \`${repoName}\`* :sweat::sweat::sweat:`
+        text: `@channel :partying_face::partying_face::partying_face: *Braches aniversariantes da semana do repositorio \`${repoName}\`* :sweat::sweat::sweat:`
       }
     }
   ]
