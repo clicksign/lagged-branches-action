@@ -13,7 +13,7 @@ on:
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: release management
     steps:
       - name: Checkout Github
         uses: actions/checkout@v3
@@ -24,6 +24,7 @@ jobs:
           repository: clicksign/release-management
           ref: refs/heads/main
           path: .github/workflows
+          token: ${{secrets.TOKEN}}
 
       - name: Release Management
         id: release-management
