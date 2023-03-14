@@ -12,7 +12,7 @@ on:
 
 jobs:
   hello_world_job:
-    if: "!startsWith(github.event.head_commit.message, 'Foi realizado')"
+    if: "!github.event.created && !startsWith(github.event.head_commit.message, 'Foi realizado')"
     runs-on: ubuntu-latest
     name: release management
     steps:
