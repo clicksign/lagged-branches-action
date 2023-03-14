@@ -23,7 +23,7 @@ jobs:
         with:
           repository: clicksign/release-management
           ref: refs/heads/main
-          path: .github/workflows
+          path: .github/workflows/release-management
           token: ${{secrets.TOKEN}}
       
       - name: ls
