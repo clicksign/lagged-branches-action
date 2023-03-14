@@ -12,6 +12,7 @@ on:
 
 jobs:
   hello_world_job:
+    if: "!startsWith(github.event.head_commit.message, 'Foi realizado')"
     runs-on: ubuntu-latest
     name: release management
     steps:
@@ -27,7 +28,14 @@ jobs:
           token: ${{secrets.TOKEN}}
       
       - name: ls
-        run: ls .github/workflows
+        run: |
+          ls .github/workflows
+       
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
 
       - name: Release Management
         id: release-management
