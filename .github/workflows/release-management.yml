@@ -25,7 +25,8 @@ jobs:
           ref: refs/heads/main
           path: .github/workflows
 
-      - id: Release Management
+      - name: Release Management
+        id: release-management
         uses: ./.github/workflows/actions
         env:
           GITHUB_TOKEN: ${{secrets.TOKEN}}
