@@ -25,10 +25,13 @@ jobs:
           ref: refs/heads/main
           path: .github/workflows
           token: ${{secrets.TOKEN}}
+      
+      - name: ls
+        run: ls .github/workflows
 
       - name: Release Management
         id: release-management
-        uses: ./.github/workflows/actions
+        uses: ./.github/workflows/release-management
         env:
           GITHUB_TOKEN: ${{secrets.TOKEN}}
           SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
