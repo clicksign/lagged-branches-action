@@ -37,6 +37,7 @@ jobs:
           channel_id: ${{secrets.CHANNEL_ID}}
           thread_ts: ${{ needs.slack.outputs.thread_ts }}
           max_days: 1
+          delete_branch_list: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}

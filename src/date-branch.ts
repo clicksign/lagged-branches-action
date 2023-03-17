@@ -10,7 +10,8 @@ export async function execute({
   channelID,
   threadTS,
   maxDays,
-  denyBranchList
+  denyBranchList,
+  deleteBranchList
 }: IDateBranch): Promise<void> {
   const toolKit = getOctokit(githubToken())
 
@@ -50,10 +51,12 @@ export async function execute({
     threadTS
   })
 
-  for (const branchInfo of branchesInfo) {
-    await toolKit.rest.git.deleteRef({
-      ...context.repo,
-      ref: `heads/${branchInfo.branchName}`
-    })
+  if (deleteBranchList === 'true') {
+    for (const branchInfo of branchesInfo) {
+      await toolKit.rest.git.deleteRef({
+        ...context.repo,
+        ref: `heads/${branchInfo.branchName}`
+      })
+    }
   }
 }

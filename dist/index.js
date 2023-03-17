@@ -50,7 +50,7 @@ const slack_send_1 = __nccwpck_require__(9555);
 const get_github_token_1 = __nccwpck_require__(2589);
 const get_branches_info_1 = __nccwpck_require__(6164);
 const get_allowed_branches_1 = __nccwpck_require__(1528);
-function execute({ channelID, threadTS, maxDays, denyBranchList }) {
+function execute({ channelID, threadTS, maxDays, denyBranchList, deleteBranchList }) {
     return __awaiter(this, void 0, void 0, function* () {
         const toolKit = (0, github_1.getOctokit)((0, get_github_token_1.githubToken)());
         const { data: branchData } = yield toolKit.rest.repos.listBranches(Object.assign({}, github_1.context.repo));
@@ -79,8 +79,10 @@ function execute({ channelID, threadTS, maxDays, denyBranchList }) {
             slackToken,
             threadTS
         });
-        for (const branchInfo of branchesInfo) {
-            yield toolKit.rest.git.deleteRef(Object.assign(Object.assign({}, github_1.context.repo), { ref: `heads/${branchInfo.branchName}` }));
+        if (deleteBranchList === 'true') {
+            for (const branchInfo of branchesInfo) {
+                yield toolKit.rest.git.deleteRef(Object.assign(Object.assign({}, github_1.context.repo), { ref: `heads/${branchInfo.branchName}` }));
+            }
         }
     });
 }
@@ -312,7 +314,14 @@ function run() {
             const threadTS = core.getInput('thread_ts');
             const maxDays = core.getInput('max_days');
             const denyBranchList = core.getInput('deny_branch_list');
-            yield (0, date_branch_1.execute)({ channelID, threadTS, maxDays, denyBranchList });
+            const deleteBranchList = core.getInput('delete_branch_list');
+            yield (0, date_branch_1.execute)({
+                channelID,
+                threadTS,
+                maxDays,
+                denyBranchList,
+                deleteBranchList
+            });
             core.debug(new Date().toTimeString());
         }
         catch (error) {
