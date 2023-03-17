@@ -49,4 +49,11 @@ export async function execute({
     slackToken,
     threadTS
   })
+
+  for (const branchInfo of branchesInfo) {
+    await toolKit.rest.git.deleteRef({
+      ...context.repo,
+      ref: `heads/${branchInfo.branchName}`
+    })
+  }
 }
