@@ -30,6 +30,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Success
+        env:
+          RELEASE: ${{ inputs.repo_name }}
         run: |
           git fetch --prune --all
-          git branch
+          git checkout ${{ inputs.repo_name }}
+          TAG=$(echo $RELEASE | cut -d'/' -f 2)
+          git tag $TAG
+          git push origin tags/$TAG
+          git push -d origin RELEASE
