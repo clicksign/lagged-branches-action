@@ -28,9 +28,8 @@ jobs:
     steps:
       - name: "⏬ Check out repository code"
         uses: actions/checkout@v3
-        with:
-          repository: 'lagged-branches-action'
-          ref: "refs/heads/release/v1.3.0"
 
       - name: Success
-        run: git branch
+        run: |
+          git fetch --prune --all
+          git branch
