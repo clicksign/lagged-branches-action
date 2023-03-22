@@ -6,6 +6,10 @@ concurrency:
 
 on:
   workflow_dispatch:
+    inputs:
+      repo_name:
+        description: 'Repository name'
+        required: true
 
 jobs:
   job1:
@@ -22,5 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [job1, job2]
     steps:
+      - name: "⏬ Check out repository code"
+        uses: actions/checkout@v3
+        with:
+          ref: "release/v1.3.0"
+
       - name: Success
-        run: echo "aqui"
+        run: git branch
