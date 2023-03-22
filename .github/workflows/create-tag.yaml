@@ -34,8 +34,8 @@ jobs:
           RELEASE: ${{ inputs.repo_name }}
         run: |
           git fetch --prune --all
-          git checkout ${{ inputs.repo_name }}
+          git checkout $RELEASE
           TAG=$(echo $RELEASE | cut -d'/' -f 2)
           git tag $TAG
           git push origin tags/$TAG
-          git push -d origin RELEASE
+          git push -d origin $RELEASE
