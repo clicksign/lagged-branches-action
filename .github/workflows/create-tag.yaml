@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Error
-        run: cat -d
+        run: ls
   job2:
     runs-on: ubuntu-latest
     steps:
