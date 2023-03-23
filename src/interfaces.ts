@@ -5,7 +5,7 @@ export interface IDateBranch {
   threadTS: string
   maxDays: string
   denyBranchList: string
-  deleteBranchList: string
+  deleteBranchList: string // inger
 }
 
 export interface IBranchesInfo {
