@@ -6,7 +6,7 @@ import {blockMessage, blockThread} from './libs/create-block-message-slack'
 export async function slack({
   channelID,
   branchesInfo,
-  repoName,
+  repoName, // repo name
   slackToken,
   threadTS
 }: ISlack): Promise<void> {
@@ -41,3 +41,4 @@ export async function slack({
     throw new Error(e)
   }
 }
+//fdfsfdsfdsfsd

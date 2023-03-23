@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import {execute} from './date-branch'
+import {execute} from './date-branch' //teste
 
 async function run(): Promise<void> {
   try {
