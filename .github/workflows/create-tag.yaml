@@ -29,13 +29,27 @@ jobs:
       - name: "⏬ Check out repository code"
         uses: actions/checkout@v3
 
-      - name: Success
-        env:
-          RELEASE: ${{ inputs.repo_name }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Buddy Work
         run: |
-          git fetch --prune --all
-          git checkout $RELEASE
-          TAG=$(echo $RELEASE | cut -d'/' -f 2)
-          git tag $TAG
-          git push origin tags/$TAG
-          git push -d origin $RELEASE
+          npm install -g buddyworks-cli
+          buddy-cli config set token fb8a177a-3915-4d2f-8cf5-6a9b162369ef
+          buddy-cli cf set workspace clicksign
+          buddy-cli cf set project tavola
+          buddy-cli pl r 439917 -g v1.470.0
+
+
+      # - name: Success
+      #   env:
+      #     RELEASE: ${{ inputs.repo_name }}
+      #   run: |
+      #     git fetch --prune --all
+      #     git checkout $RELEASE
+      #     TAG=$(echo $RELEASE | cut -d'/' -f 2)
+      #     git tag $TAG
+      #     git push origin tags/$TAG
+      #     git push -d origin $RELEASE
+
