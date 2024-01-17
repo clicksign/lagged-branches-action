@@ -38,7 +38,7 @@ export function blockThread(branchesInfo: IBranchesInfo[]): IBlocks[] {
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: `:warning::construction::put_litter_in_its_place: \`Fiquem atentos, em breve bracnhes com mais de 30 dias sem atualização serão removidas automaticamente\``
+        text: `:warning::construction::put_litter_in_its_place: \`Todas as branches com mais de 30 dias sem atualização serão removidas automaticamente\``
       }
     }
   ]

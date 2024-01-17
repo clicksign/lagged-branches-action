@@ -8,8 +8,15 @@ async function run(): Promise<void> {
     const threadTS = core.getInput('thread_ts')
     const maxDays = core.getInput('max_days')
     const denyBranchList = core.getInput('deny_branch_list')
+    const deleteBranchList = core.getInput('delete_branch_list')
 
-    await execute({channelID, threadTS, maxDays, denyBranchList})
+    await execute({
+      channelID,
+      threadTS,
+      maxDays,
+      denyBranchList,
+      deleteBranchList
+    })
     core.debug(new Date().toTimeString())
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

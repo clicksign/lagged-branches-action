@@ -1,0 +1,46 @@
+name: Release Management
+
+concurrency:
+  group: release-management-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "release/**"
+
+jobs:
+  hello_world_job:
+    if: "!github.event.created && !startsWith(github.event.head_commit.message, 'Foi realizado')"
+    runs-on: ubuntu-latest
+    name: release management
+    steps:
+      - name: Checkout Github
+        uses: actions/checkout@v3
+      
+      - name: Get composite run steps repository
+        uses: actions/checkout@v3
+        with:
+          repository: clicksign/release-management
+          ref: refs/heads/main
+          path: .github/workflows/release-management
+          token: ${{secrets.TOKEN}}
+      
+      - name: ls
+        run: |
+          ls .github/workflows
+       
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+
+      - name: Release Management
+        id: release-management
+        uses: ./.github/workflows/release-management
+        env:
+          GITHUB_TOKEN: ${{secrets.TOKEN}}
+          SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
+          SLACK_CHANNEL: ${{secrets.SLACK_CHANNEL}}

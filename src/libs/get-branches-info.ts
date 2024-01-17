@@ -50,7 +50,7 @@ export async function getBranchesInfo({
     })
   )
 
-  const branchesInfoFilter = branchesInfo.filter(b => b !== null)
+  const branchesInfoFilter: any = branchesInfo.filter(b => b !== null)
   core.debug(JSON.stringify(branchesInfoFilter))
   return branchesInfoFilter
 }
