@@ -17,10 +17,10 @@ jobs:
     name: release management
     steps:
       - name: Checkout Github
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Get composite run steps repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: clicksign/release-management
           ref: refs/heads/main
