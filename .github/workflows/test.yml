@@ -9,7 +9,7 @@ jobs:
       thread_ts: ${{ steps.thread_id.outputs.thread_ts }}
     steps:
       - name: Checkout Github
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v4
 
       - name: Slack Send Message
         id: thread_id
@@ -25,7 +25,7 @@ jobs:
     needs: slack
     steps:
       - name: Checkout Github
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v4
 
       - name: Echo Thread ID
         run: echo ${{ needs.slack.outputs.thread_ts }}
